@@ -9,7 +9,7 @@ class DeleteUser(DeleteUserPort):
 
     async def execute(self, user_id: int) -> None:
         async with self._uow as u:
-            result= await u.users.delete(user_id)
+            result = await u.users.delete(user_id)
             if not result:
                 raise UserNotFoundError
             await self._uow.commit()
