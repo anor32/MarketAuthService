@@ -16,11 +16,12 @@ class SQLAlchemyUserRepository(UserRepository):
         await self._session.flush()
         return _to_entity(model)
 
-    async def _get_user_result_by_id(self,user_id):
+    async def _get_user_result_by_id(self, user_id):
         result = await self._session.execute(
             select(UserModel).where(UserModel.id == user_id)
         )
         return result
+
     async def get_by_id(self, user_id: int) -> User | None:
         result = await self._get_user_result_by_id(user_id)
         model = result.scalar_one_or_none()
@@ -44,6 +45,7 @@ class SQLAlchemyUserRepository(UserRepository):
             return False
         await self._session.delete(model)
         return True
+
 
 def _to_entity(model: UserModel) -> User:
     return User(
